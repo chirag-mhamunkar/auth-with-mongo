@@ -1,8 +1,9 @@
 package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.configuration.DBConfiguration;
+import com.turtlemint.authservice.entity.Permission;
 import com.turtlemint.authservice.entity.Role;
-import com.turtlemint.authservice.repositories.RoleRepository;
+import com.turtlemint.authservice.repositories.PermissionRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,48 +21,46 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataMongoTest
 @Import(DBConfiguration.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class RoleRepositoryTest {
+public class PermissionRepositoryTest {
 
     @Autowired
-    private RoleRepository roleRepository;
+    private PermissionRepository permissionRepository;
 
     @BeforeEach
     public void init(){
-        roleRepository.deleteAll().block();
+        permissionRepository.deleteAll().block();
     }
 
     @AfterAll
     public void destroy(){
-        roleRepository.deleteAll().block();
+        permissionRepository.deleteAll().block();
     }
 
     @Test
     public void notNull(){
-        assertNotNull(roleRepository);
+        assertNotNull(permissionRepository);
     }
 
     @Test
     public void saveRole(){
-        Role role = new Role("NEW_USER", "New User", "turtlemint", true);
-        StepVerifier.create(roleRepository.save(role))
+        Permission permission = new Permission("TAB_CUSTOMER_READ", "TAB_CUSTOMER_READ", true);
+        StepVerifier.create(permissionRepository.save(permission))
                 .assertNext(dbRole -> {
                     assertNotNull(dbRole.getId());
-                    assertEquals(role.getKey(), dbRole.getKey());
+                    assertEquals(permission.getKey(), dbRole.getKey());
                 })
                 .verifyComplete();
     }
 
     @Test
     public void findByKeys(){
-        Role role1 = new Role("NEW_USER", "New User", "turtlemint", true);
-        Role role2 = new Role("ADMIN", "Admin", "turtlemint", true);
-        roleRepository.saveAll(Arrays.asList(role1, role2)).collectList().block();
+        Permission permission1 = new Permission("TAB_CUSTOMER_READ", "TAB_CUSTOMER_READ", true);
+        Permission permission2 = new Permission("ADMIN_PERMISSION", "ADMIN_PERMISSION", true);
+        permissionRepository.saveAll(Arrays.asList(permission1, permission2)).collectList().block();
 
-        StepVerifier.create(roleRepository.findByKeyIn(Arrays.asList("NEW_USER", "ADMIN")).collectList())
+        StepVerifier.create(permissionRepository.findByKeyIn(Arrays.asList("TAB_CUSTOMER_READ", "ADMIN_PERMISSION", "TEST")).collectList())
                 .assertNext(roles -> assertEquals(2, roles.size()))
                 .verifyComplete();
 
     }
-
-
 }
