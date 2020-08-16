@@ -1,6 +1,5 @@
-package com.turtlemint.authservice.repositories;
+package com.turtlemint.authservice.repository;
 
-import com.turtlemint.authservice.entity.Role;
 import com.turtlemint.authservice.entity.UserRoleMapping;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Query;

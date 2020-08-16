@@ -1,7 +1,7 @@
 package com.turtlemint.authservice.controller;
 
 import com.turtlemint.authservice.entity.Permission;
-import com.turtlemint.authservice.repositories.PermissionRepository;
+import com.turtlemint.authservice.repository.PermissionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

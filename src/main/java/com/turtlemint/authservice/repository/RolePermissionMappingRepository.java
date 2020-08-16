@@ -1,4 +1,4 @@
-package com.turtlemint.authservice.repositories;
+package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.entity.RolePermissionMapping;
 import org.bson.types.ObjectId;

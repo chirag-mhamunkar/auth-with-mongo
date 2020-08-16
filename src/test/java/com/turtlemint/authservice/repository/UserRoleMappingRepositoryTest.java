@@ -2,7 +2,6 @@ package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.configuration.DBConfiguration;
 import com.turtlemint.authservice.entity.UserRoleMapping;
-import com.turtlemint.authservice.repositories.UserRoleMappingRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;

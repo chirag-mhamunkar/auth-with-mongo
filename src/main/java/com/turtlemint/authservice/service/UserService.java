@@ -4,7 +4,7 @@ import com.turtlemint.authservice.entity.UserRoleMapping;
 import com.turtlemint.authservice.model.PermissionModel;
 import com.turtlemint.authservice.model.RoleModel;
 import com.turtlemint.authservice.model.UserModel;
-import com.turtlemint.authservice.repositories.*;
+import com.turtlemint.authservice.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class UserService {
     public Mono<UserModel> findUserById(String id){
         log.info("Finding user by id: {}", id);
         AtomicReference<UserModel> userModel = new AtomicReference<>();
-        //return Mono.error for id not found or id is not valid
+        //TODO: return Mono.error for id not found or id is not valid
         return userRepository.findById(new ObjectId(id))
                 //.defaultIfEmpty(User.builder().id(new ObjectId(id)).build())
                 .log()
@@ -50,7 +50,7 @@ public class UserService {
                 .flatMapMany(roleIds -> findByRoleIds(roleIds))
                 .collectList()
                 .map(roleModels -> {userModel.get().setRoles(roleModels); return roleModels;})
-                .doOnNext(roleModels -> log.info("UserModel: {}", userModel.get()))
+                .doOnNext(roleModels -> log.info("UserModel: {}", userModel.get())) //TODO: remove this
                 .log()
                 .flatMap(roleModels -> Mono.just(userModel.get()))
                 //.thenReturn(userModel.get())

@@ -1,4 +1,4 @@
-package com.turtlemint.authservice.repositories;
+package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.entity.User;
 import org.bson.types.ObjectId;

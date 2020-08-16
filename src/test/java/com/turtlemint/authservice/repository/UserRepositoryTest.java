@@ -2,13 +2,11 @@ package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.configuration.DBConfiguration;
 import com.turtlemint.authservice.entity.User;
-import com.turtlemint.authservice.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.util.Arrays;
