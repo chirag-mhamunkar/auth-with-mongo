@@ -45,7 +45,7 @@ public class UserService {
                 .log()
                 .flatMap(user -> {log.info("User: {}", user); userModel.set(UserModel.from(user)); return Mono.just(user);})
                 .flatMapMany(user -> userRoleMappingRepository.findByUserId(user.getId()))
-                .map(UserRoleMapping :: getRole_users)
+                .map(UserRoleMapping ::getRoleId)
                 .collectList()
                 .flatMapMany(roleIds -> findByRoleIds(roleIds))
                 .collectList()
@@ -70,11 +70,11 @@ public class UserService {
                 //.flatMapMany(roleObjectIds -> rolePermissionMappingRepository.getByRoleIds(roleObjectIds))
 
                 .doOnNext(rolePermissionMapping -> {
-                    ObjectId roleId = rolePermissionMapping.getRole_permissions();
-                    ObjectId permissionId = rolePermissionMapping.getPermission_roles();
+                    ObjectId roleId = rolePermissionMapping.getRoleId();
+                    ObjectId permissionId = rolePermissionMapping.getPermissionId();
                     permissionIdToRoleIdMap.put(permissionId, roleId);
                 })
-                .map(rolePermissionMapping -> rolePermissionMapping.getPermission_roles())
+                .map(rolePermissionMapping -> rolePermissionMapping.getPermissionId())
                 .collectList()
                 .flatMapMany(permissionIds -> permissionRepository.findAllById(permissionIds))
                 .doOnNext(permission -> {

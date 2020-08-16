@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @AllArgsConstructor
 @Builder
@@ -17,8 +18,12 @@ public class RolePermissionMapping {
 
     @Id
     private ObjectId id;
-    private ObjectId role_permissions;
-    private ObjectId permission_roles;
+
+    @Field("role_permissions")
+    private ObjectId roleId;
+
+    @Field("permission_roles")
+    private ObjectId permissionId;
 
     public RolePermissionMapping(ObjectId roleId, ObjectId permissionId){
         this(null, roleId, permissionId);

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @AllArgsConstructor
 @Builder
@@ -18,8 +19,12 @@ public class UserRoleMapping {
 
     @Id
     private ObjectId id;
-    private ObjectId user_roles;
-    private ObjectId role_users;
+
+    @Field("user_roles")
+    private ObjectId userId;
+
+    @Field("role_users")
+    private ObjectId roleId;
 
     public UserRoleMapping(ObjectId userId, ObjectId roleId){
         this(null, userId, roleId);

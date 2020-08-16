@@ -13,4 +13,7 @@ public interface UserRoleMappingRepository extends ReactiveMongoRepository<UserR
 
     @Query(value = "{'user_roles': ?0}")
     Flux<UserRoleMapping> findByUserId(ObjectId userId);
+
+    @Query(value = "{'user_roles': {'$in': ?0}}")
+    Flux<UserRoleMapping> findByUserIds(List<ObjectId> userId);
 }

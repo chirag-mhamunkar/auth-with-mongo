@@ -2,7 +2,6 @@ package com.turtlemint.authservice.repository;
 
 import com.turtlemint.authservice.configuration.DBConfiguration;
 import com.turtlemint.authservice.entity.UserRoleMapping;
-import com.turtlemint.authservice.repositories.RoleRepository;
 import com.turtlemint.authservice.repositories.UserRoleMappingRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterAll;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import reactor.test.StepVerifier;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -46,7 +47,16 @@ public class UserRoleMappingRepositoryTest {
 
         userRoleMappingRepository.save(urm).block();
 
-        StepVerifier.create(userRoleMappingRepository.findByUserId(urm.getUser_roles()))
+        StepVerifier.create(userRoleMappingRepository.findByUserId(urm.getUserId()))
+                .assertNext(dbUrm -> assertEquals(urm, dbUrm))
+                .verifyComplete();
+    }
+
+    @Test
+    public void findByUserIds(){
+        UserRoleMapping urm = new UserRoleMapping(new ObjectId(), new ObjectId());
+        userRoleMappingRepository.save(urm).block();
+        StepVerifier.create(userRoleMappingRepository.findByUserIds(Arrays.asList(urm.getUserId())))
                 .assertNext(dbUrm -> assertEquals(urm, dbUrm))
                 .verifyComplete();
     }
