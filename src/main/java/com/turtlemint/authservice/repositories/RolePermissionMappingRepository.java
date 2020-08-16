@@ -12,7 +12,7 @@ public interface RolePermissionMappingRepository extends ReactiveMongoRepository
 
     @Query(value = "{'role_permissions': ?0}")
     Flux<RolePermissionMapping> findByRoleId(ObjectId roleId);
-    
+
     @Query(value = "{'role_permissions': {'$in': ?0}}")
     Flux<RolePermissionMapping> findByRoleIds(List<ObjectId> roleIds);
 }

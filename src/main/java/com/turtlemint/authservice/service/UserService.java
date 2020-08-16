@@ -65,9 +65,9 @@ public class UserService {
         return roleRepository.findAllById(roleIds)
                 .doOnNext(role -> idToRoleModels.put(role.getId(), RoleModel.from(role)))
                 .map(role -> role.getId())
-                .flatMap(objectId -> rolePermissionMappingRepository.findByRoleId(objectId))
-                //.collectList()
-                //.flatMapMany(roleObjectIds -> rolePermissionMappingRepository.getByRoleIds(roleObjectIds))
+                //.flatMap(objectId -> rolePermissionMappingRepository.findByRoleId(objectId))
+                .collectList()
+                .flatMapMany(roleObjectIds -> rolePermissionMappingRepository.findByRoleIds(roleObjectIds))
 
                 .doOnNext(rolePermissionMapping -> {
                     ObjectId roleId = rolePermissionMapping.getRoleId();
