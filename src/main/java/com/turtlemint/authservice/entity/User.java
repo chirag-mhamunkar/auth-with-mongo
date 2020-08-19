@@ -27,7 +27,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     public User(String userId, String client, String tenant){
-        this(null,client, tenant, userId, LocalDateTime.now(), LocalDateTime.now());
+        this(null,client, userId, tenant, LocalDateTime.now(), LocalDateTime.now());
     }
 
 }
