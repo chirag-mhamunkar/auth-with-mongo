@@ -43,9 +43,24 @@ public class PermissionRepositoryTest {
     public void saveRole(){
         Permission permission = new Permission("TAB_CUSTOMER_READ", "TAB_CUSTOMER_READ", true);
         StepVerifier.create(permissionRepository.save(permission))
-                .assertNext(dbRole -> {
-                    assertNotNull(dbRole.getId());
-                    assertEquals(permission.getKey(), dbRole.getKey());
+                .assertNext(dbPermission -> {
+                    assertNotNull(dbPermission.getId());
+                    assertEquals(permission.getKey(), dbPermission.getKey());
+                    assertEquals(permission, dbPermission);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    public void findByKey(){
+        Permission permission1 = new Permission("TAB_CUSTOMER_READ", "TAB_CUSTOMER_READ", true);
+        Permission permission2 = new Permission("ADMIN_PERMISSION", "ADMIN_PERMISSION", true);
+        permissionRepository.saveAll(Arrays.asList(permission1, permission2)).collectList().block();
+
+        StepVerifier.create(permissionRepository.findByKey("TAB_CUSTOMER_READ"))
+                .assertNext(dbPermission -> {
+                    assertEquals(permission1.getKey(), dbPermission.getKey());
+                    assertEquals(permission1.getId(), dbPermission.getId());
                 })
                 .verifyComplete();
     }
@@ -57,7 +72,7 @@ public class PermissionRepositoryTest {
         permissionRepository.saveAll(Arrays.asList(permission1, permission2)).collectList().block();
 
         StepVerifier.create(permissionRepository.findByKeyIn(Arrays.asList("TAB_CUSTOMER_READ", "ADMIN_PERMISSION", "TEST")).collectList())
-                .assertNext(roles -> assertEquals(2, roles.size()))
+                .assertNext(dbPermissions -> assertEquals(2, dbPermissions.size()))
                 .verifyComplete();
 
     }
